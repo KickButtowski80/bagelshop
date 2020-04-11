@@ -21,3 +21,8 @@ export default {
   })
 };
 </script>
+<style lang="scss">
+main{
+  background-color: black
+}
+</style>

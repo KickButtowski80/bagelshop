@@ -32,7 +32,12 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
+    <v-content>
+      <v-container class="fill-height" fluid>
+          <h1>test</h1>
 
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
