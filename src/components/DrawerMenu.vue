@@ -26,7 +26,7 @@
 
     <v-app-bar
       app
-      color="indigo"
+      color="orange"
       dark
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -34,7 +34,7 @@
     </v-app-bar>
     <v-content>
       <v-container class="fill-height" fluid>
-          <h1>test</h1>
+          
 
       </v-container>
     </v-content>
