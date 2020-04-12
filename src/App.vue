@@ -2,6 +2,7 @@
   <v-app id="app">
     <v-content>
       <DrawerMenu />
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
