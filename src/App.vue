@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
+    <DrawerMenu />
     <v-content>
-      <DrawerMenu />
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -23,5 +23,4 @@ export default {
 };
 </script>
 <style lang="scss">
-
 </style>
