@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer color="primary" v-model="drawer" app>
       <v-list dense>
         <v-subheader class="display-1">Welcome</v-subheader>
-        <v-list-item-group color="primary">
+        <v-list-item-group>
           <v-list-item v-for="(item, i) in items" :key="i" link>
             <router-link tag="span" :to="item.link">
               <v-list-item-icon>
@@ -45,3 +45,14 @@ export default {
   })
 };
 </script>
+<style lang="scss" scoped>
+.v-list--dense .v-subheader {
+  padding: 55px 49px;
+}
+.theme--light .v-icon {
+  color: orange !important;
+}
+.theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+  color: orange !important;
+}
+</style>
