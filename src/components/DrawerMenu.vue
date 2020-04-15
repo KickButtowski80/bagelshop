@@ -19,7 +19,6 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-
     <v-app-bar app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="headline">
@@ -40,13 +39,13 @@ export default {
     drawer: null,
     items: [
       { text: "Home", icon: "home", link: "/" },
+      { text: "Menu", icon: "menu_book", link: "/menu" },
       { text: "About", icon: "info", link: "/about" }
     ]
   })
 };
 </script>
 <style lang="scss" scoped>
-
 .v-list--dense .v-subheader {
   padding: 55px 49px;
 }
