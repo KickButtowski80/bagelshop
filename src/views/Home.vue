@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-xs>
     <v-row align-self="center" class="info_box">
-      <v-col sm="2" xs="12" offset-sm="9">
+      <v-col sm="9" xs="12" offset-sm="2">
         <h1>IT Bagel Shop</h1>
         <div>
           <p>Buy the bagel that was made from the finest ingredients</p>
@@ -40,16 +40,30 @@ export default {
 };
 </script>
 <style lang="scss">
+ 
+.info_box .col h1 {
+  @include infobox_mixin(
+    5px,
+    map-get($colors, darkgrey),
+    10px,
+    5px,
+    map-get($colors, inprogress)
+  );
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 16px;
+  text-align: center;
+}
 .info_box p {
   background-color: #f59f65;
   padding: 20px;
 }
 
-.row:first-child{
+.row:first-child {
   height: 40vh;
 }
 
-.row:last-child{
+.row:last-child {
   height: 40vh;
 }
 </style>

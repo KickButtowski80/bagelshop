@@ -46,6 +46,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .v-list--dense .v-subheader {
   padding: 55px 49px;
 }
