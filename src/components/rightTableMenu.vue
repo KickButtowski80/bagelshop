@@ -11,9 +11,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in menuItems" :key="item.name">
+          <tr v-for="item in basket" :key="item.name">
             <td>
-              <v-icon>add_box</v-icon>1
+              <v-icon @click="increaseQuantity(item)">add_box</v-icon> 
+              <span>{{item.quantity}}</span>   
               <v-icon>indeterminate_check_box</v-icon>
             </td>
             <td>{{ item.name }}</td>
@@ -43,27 +44,26 @@
     </v-row>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      title: "Left Menu",
-      menuItems: [
-        {
-          name: "Frozen Yogurt",
-          description: "just simple yougurt for your happiness",
-          price: 2
-        },
-        {
-          name: "Ice cream sandwich",
-          description: "lesser suger more happniess inside your icecream",
-          price: 2.37
-        }
-      ]
-    };
-  }
-};
-</script>
+ <script>
+ export default {
+   data(){
+     return{
+       title: "Current Basket"
+     }
+   },
+   computed:{
+     basket(){
+       return this.$store.getters.basket
+     }
+   },
+   methods:{
+     increaseQuantity(item){
+     this.$store.dispatch('increaseQuantity', item)
+     }
+   }
+ }
+ </script>
+ 
 
 <style lang="scss" scoped >
 #basket_checkout {

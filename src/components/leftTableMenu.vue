@@ -19,7 +19,7 @@
             </td>
             <td>{{ item.price }}</td>
             <td>
-              <v-btn text>
+              <v-btn text v-on:click="addToBasket(item)">
                 <v-icon color="orange">add_shopping_cart</v-icon>
               </v-btn>
             </td>
@@ -33,20 +33,18 @@
 export default {
   data() {
     return {
-      title: "Menu Items",
-      menuItems: [
-        {
-          name: "Frozen Yogurt",
-          description: "just simple yougurt for your happiness",
-          price: 2
-        },
-        {
-          name: "Ice cream sandwich",
-          description: "lesser suger more happniess inside your icecream",
-          price: 2.37
-        }
-      ]
+      title: "Menu Items"
     };
+  },
+  methods: {
+    addToBasket(item) {
+      this.$store.dispatch("addToBasket", item);
+    }
+  },
+  computed: {
+    menuItems() {
+      return this.$store.getters.menuItems;
+    }
   }
 };
 </script>
