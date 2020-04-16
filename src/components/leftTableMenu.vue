@@ -33,7 +33,7 @@
 export default {
   data() {
     return {
-      title: "Left Menu",
+      title: "Menu Items",
       menuItems: [
         {
           name: "Frozen Yogurt",

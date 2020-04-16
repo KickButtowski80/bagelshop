@@ -2,12 +2,12 @@
   <v-container>
     <v-row>
       <v-col md="5" offset-md="1">
-        <div class="pa-2 info">
+        <div class="pa-2 ">
             <left-table></left-table>
         </div>
       </v-col>
       <v-col md="4" offset-md="1">
-        <div class="pa-2 info">
+        <div class="pa-2 ">
             <right-table></right-table>
         </div>
       </v-col>
