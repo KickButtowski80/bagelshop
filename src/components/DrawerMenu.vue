@@ -23,7 +23,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="headline">
         <span>The Best Bagel</span>
-        <span class="font-weight-light">by IT</span>
+        <span class="font-weight-light"> by IT</span>
       </v-toolbar-title>
     </v-app-bar>
   </div>

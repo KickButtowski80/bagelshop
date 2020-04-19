@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1 align="center">{{title}}</h1>
+    <div v-if="showError">
+      <app-alert :text="showError"></app-alert>
+    </div>
+    <h1 align="center">{{ title }}</h1>
+
     <v-simple-table od="menu-table">
       <template v-slot:default>
         <thead>
@@ -13,14 +17,15 @@
         <tbody>
           <tr v-for="item in menuItems" :key="item.name">
             <td>
-              <span id="id_name">{{item.name}}</span>
+              <span id="id_name">{{ item.name }}</span>
               <br />
-              <span id="menu_item_description">{{item.description}}</span>
+              <span id="menu_item_description">{{ item.description }}</span>
             </td>
             <td>{{ item.price }}</td>
             <td>
               <v-btn text v-on:click="addToBasket(item)">
                 <v-icon color="orange">add_shopping_cart</v-icon>
+                <span></span>
               </v-btn>
             </td>
           </tr>
@@ -33,19 +38,22 @@
 export default {
   data() {
     return {
-      title: "Menu Items"
+      title: "Menu Items",
     };
   },
   methods: {
     addToBasket(item) {
       this.$store.dispatch("addToBasket", item);
-    }
+    },
   },
   computed: {
+    showError() {
+      return this.$store.getters.showError;
+    },
     menuItems() {
       return this.$store.getters.menuItems;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
