@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1 align="center">{{ title }}</h1>
-
     <v-alert type="info" icon="mdi-emoticon-sad" v-if="basketStatus">
       Empty Basket, please add some to basket
     </v-alert>
@@ -21,11 +20,11 @@
                 <v-icon @click="increaseQuantity(item)">add_box</v-icon>
                 <span>{{ item.quantity }}</span>
                 <v-icon @click="decreaseQuantity(item)"
-                  >indeterminate_check_box</v-icon
-                >
+                  >indeterminate_check_box
+                </v-icon>
               </td>
               <td>{{ item.name }}</td>
-              <td>{{ item.price }}</td>
+              <td>{{ item.price * item.quantity }}</td>
             </tr>
           </tbody>
         </template>
@@ -38,7 +37,7 @@
           <p>Total amount:</p>
         </v-col>
         <v-col class="text-right">
-          <p>$100</p>
+          <p>${{ subTotalResult }}</p>
           <p>$10</p>
           <p class="font-weight-bold">$110</p>
         </v-col>
@@ -56,7 +55,7 @@
 export default {
   data() {
     return {
-      title: "Current Basket",
+      title: "Current Basket", 
     };
   },
   computed: {
@@ -66,6 +65,9 @@ export default {
     basketStatus() {
       return this.$store.getters.basket.length === 0;
     },
+    subTotalResult() {
+      return this.$store.getters.subTotal;
+    },
   },
   methods: {
     increaseQuantity(item) {
@@ -74,7 +76,7 @@ export default {
     decreaseQuantity(item) {
       this.$store.dispatch("decreaseQuantity", item);
     },
-  },
+  }, 
 };
 </script>
 

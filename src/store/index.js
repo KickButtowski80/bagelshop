@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    showError: false,
+    showError: { situation: false, message: "" },
     basket: [],
     menuItems: [
       {
@@ -19,25 +19,26 @@ export default new Vuex.Store({
         price: 2.37,
       },
     ],
+    subTotal: 0,
   },
   getters: {
     menuItems: (state) => state.menuItems,
     basket: (state) => state.basket,
     showError: (state) => state.showError,
-    // itemInBasket(state) {
-    //   return item => {
-    //     return state.basket.find(itemBas => {
-    //       return itemBas.name === item.name
-    //     })
-    //   }
-    // }
     itemInBasket: (state) => (item) => {
       return state.basket.find((itemBas) => itemBas.name === item.name);
     },
-  },
+    subTotal: (state) => state.subTotal
+     },
   mutations: {
+    subTotal(state){
+      state.subTotal = state.basket
+      .map((item) => item.price * item.quantity)
+      .reduce((accumulator, currentValue) => accumulator + currentValue)
+    },
     showError(state, payload) {
-      state.showError = payload;
+      state.showError.situation = payload.situation;
+      state.showError.message = payload.message;
     },
     addToBasket(state, payload) {
       state.basket.push({
@@ -67,17 +68,26 @@ export default new Vuex.Store({
   actions: {
     addToBasket({ getters, commit }, payload) {
       if (getters.itemInBasket(payload)) {
-        commit("showError", `${payload.name} is already in your basket.`);
+        commit("showError", {
+          situation: true,
+          message: `${payload.name} is already in your basket.`,
+        });
       } else {
         commit("addToBasket", payload);
-        commit("showError", false);
+        commit("subTotal")
+        commit("showError", {
+          situation: false,
+          message: "",
+        });
       }
     },
     increaseQuantity({ commit }, payload) {
       commit("increaseQuantity", payload);
+      commit("subTotal")
     },
     decreaseQuantity({ commit }, payload) {
       commit("decreaseQuantity", payload);
+      commit("subTotal")
     },
   },
   modules: {},

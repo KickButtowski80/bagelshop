@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div v-if="showError">
-      <app-alert :text="showError"></app-alert>
+  {{showError['situation']}}
+    <div v-if="showError['situation']">
+      <app-alert :text="showError.message"></app-alert>
     </div>
     <h1 align="center">{{ title }}</h1>
 

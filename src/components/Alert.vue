@@ -7,20 +7,19 @@
       color="error  accent-4"
       dark
       dismissible
-      :value = true
+      :value="alert"
     >
-       {{text}}
+      {{ text }}
     </v-alert>
- 
   </div>
 </template>
 <script>
-  export default {
-    props: ["text"],
-    data () {
-      return {
-        alert: true,
-      }
-    }
-  }
+export default {
+  props: ["text"],
+  data() {
+    return {
+      alert: true,
+    };
+  },
+};
 </script>
