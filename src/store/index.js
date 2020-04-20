@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     showError: { situation: false, message: "" },
+    message: "nothing so far...",
     basket: [],
     menuItems: [
       {
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     menuItems: (state) => state.menuItems,
     basket: (state) => state.basket,
     showError: (state) => state.showError,
+    message: (state) => state.message,
     itemInBasket: (state) => (item) => {
       return state.basket.find((itemBas) => itemBas.name === item.name);
     },
@@ -34,7 +36,7 @@ export default new Vuex.Store({
   },
   mutations: {
     totalPrice(state) {
-      state.totalPrice = state.subTotal + 10 ;
+      state.totalPrice = state.subTotal + 10;
     },
     subTotal(state) {
       state.subTotal = state.basket
@@ -44,6 +46,9 @@ export default new Vuex.Store({
     showError(state, payload) {
       state.showError.situation = payload.situation;
       state.showError.message = payload.message;
+    },
+    showMessage(state, payload) {
+      state.message += payload ;
     },
     addToBasket(state, payload) {
       state.basket.push({
@@ -69,14 +74,15 @@ export default new Vuex.Store({
         state.basket.splice(index_item_in_basket, 1);
       }
     },
-    addNewToItems(state, payload){
-      state.menuItems.push(payload)
+    addNewToItems(state, payload) {
+      state.menuItems.push(payload);
     },
-    delItem(state,payload){
+    delItem(state, payload) {
       state.menuItems.splice(
-      state.menuItems.findIndex( (item) => item.name === payload.name),
-      1)
-    }
+        state.menuItems.findIndex((item) => item.name === payload.name),
+        1
+      );
+    },
   },
   actions: {
     addToBasket({ getters, commit }, payload) {
@@ -88,7 +94,7 @@ export default new Vuex.Store({
       } else {
         commit("addToBasket", payload);
         commit("subTotal");
-        commit("totalPrice")
+        commit("totalPrice");
         commit("showError", {
           situation: false,
           message: "",
@@ -98,19 +104,21 @@ export default new Vuex.Store({
     increaseQuantity({ commit }, payload) {
       commit("increaseQuantity", payload);
       commit("subTotal");
-      commit("totalPrice")
+      commit("totalPrice");
     },
     decreaseQuantity({ commit }, payload) {
       commit("decreaseQuantity", payload);
       commit("subTotal");
-      commit("totalPrice")
+      commit("totalPrice");
     },
-    addNewToItems({commit}, payload){
-      commit("addNewToItems", payload)
+    addNewToItems({ commit }, payload) {
+      commit("addNewToItems", payload);
+      commit("showMessage", "New Item Added");
     },
-    delItem({commit}, payload){
-      commit("delItem",payload)
-    }
+    delItem({ commit }, payload) {
+      commit("delItem", payload);
+      commit("showMessage", "Item was deleted");
+    },
   },
   modules: {},
 });
