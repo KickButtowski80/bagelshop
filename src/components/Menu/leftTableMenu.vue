@@ -1,11 +1,9 @@
 <template>
   <div>
-  {{showError['situation']}}
     <div v-if="showError['situation']">
       <app-alert :text="showError.message"></app-alert>
     </div>
     <h1 align="center">{{ title }}</h1>
-
     <v-simple-table od="menu-table">
       <template v-slot:default>
         <thead>
@@ -37,6 +35,7 @@
 </template>
 <script>
 export default {
+  name: 'LeftTableMenu',
   data() {
     return {
       title: "Menu Items",

@@ -39,7 +39,7 @@
         <v-col class="text-right">
           <p>${{ subTotalResult }}</p>
           <p>$10</p>
-          <p class="font-weight-bold">$110</p>
+          <p class="font-weight-bold">${{ totalPriceResult}}</p>
         </v-col>
       </v-row>
       <v-row>
@@ -53,6 +53,7 @@
 </template>
 <script>
 export default {
+  name: 'RightTableMenu',
   data() {
     return {
       title: "Current Basket", 
@@ -68,6 +69,9 @@ export default {
     subTotalResult() {
       return this.$store.getters.subTotal;
     },
+    totalPriceResult(){
+      return this.$store.getters.totalPrice
+    }
   },
   methods: {
     increaseQuantity(item) {

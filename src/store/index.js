@@ -20,6 +20,7 @@ export default new Vuex.Store({
       },
     ],
     subTotal: 0,
+    totalPrice: 0,
   },
   getters: {
     menuItems: (state) => state.menuItems,
@@ -28,13 +29,17 @@ export default new Vuex.Store({
     itemInBasket: (state) => (item) => {
       return state.basket.find((itemBas) => itemBas.name === item.name);
     },
-    subTotal: (state) => state.subTotal
-     },
+    subTotal: (state) => state.subTotal,
+    totalPrice: (state) => state.totalPrice,
+  },
   mutations: {
-    subTotal(state){
+    totalPrice(state) {
+      state.totalPrice = state.subTotal + 10 ;
+    },
+    subTotal(state) {
       state.subTotal = state.basket
-      .map((item) => item.price * item.quantity)
-      .reduce((accumulator, currentValue) => accumulator + currentValue)
+        .map((item) => item.price * item.quantity)
+        .reduce((accumulator, currentValue) => accumulator + currentValue);
     },
     showError(state, payload) {
       state.showError.situation = payload.situation;
@@ -64,6 +69,9 @@ export default new Vuex.Store({
         state.basket.splice(index_item_in_basket, 1);
       }
     },
+    addNewToItems(state, payload){
+      state.menuItems.push(payload)
+    }
   },
   actions: {
     addToBasket({ getters, commit }, payload) {
@@ -74,7 +82,8 @@ export default new Vuex.Store({
         });
       } else {
         commit("addToBasket", payload);
-        commit("subTotal")
+        commit("subTotal");
+        commit("totalPrice")
         commit("showError", {
           situation: false,
           message: "",
@@ -83,12 +92,17 @@ export default new Vuex.Store({
     },
     increaseQuantity({ commit }, payload) {
       commit("increaseQuantity", payload);
-      commit("subTotal")
+      commit("subTotal");
+      commit("totalPrice")
     },
     decreaseQuantity({ commit }, payload) {
       commit("decreaseQuantity", payload);
-      commit("subTotal")
+      commit("subTotal");
+      commit("totalPrice")
     },
+    addNewToItems({commit}, payload){
+      commit("addNewToItems", payload)
+    }
   },
   modules: {},
 });

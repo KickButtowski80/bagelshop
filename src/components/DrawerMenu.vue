@@ -40,7 +40,8 @@ export default {
     items: [
       { text: "Home", icon: "home", link: "/" },
       { text: "Menu", icon: "menu_book", link: "/menu" },
-      { text: "About", icon: "info", link: "/about" }
+      { text: "About", icon: "info", link: "/about" },
+      { text: 'Admin', icon: 'lock', link: '/admin'}
     ]
   })
 };

@@ -16,13 +16,13 @@
 </template>
 
 <script>
-import leftTabelMenu from '../components/leftTableMenu' 
-import rightTableMenuVue from '../components/rightTableMenu.vue';
+import leftTabelMenu from '../components/Menu/leftTableMenu' 
+import rightTableMenu from '../components/Menu/rightTableMenu'
 export default {
   name: "Menu",
   components:{
       'left-table': leftTabelMenu,
-      'right-table' : rightTableMenuVue
+      'right-table' : rightTableMenu
   }
 };
 </script>
