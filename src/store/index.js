@@ -71,6 +71,11 @@ export default new Vuex.Store({
     },
     addNewToItems(state, payload){
       state.menuItems.push(payload)
+    },
+    delItem(state,payload){
+      state.menuItems.splice(
+      state.menuItems.findIndex( (item) => item.name === payload.name),
+      1)
     }
   },
   actions: {
@@ -102,6 +107,9 @@ export default new Vuex.Store({
     },
     addNewToItems({commit}, payload){
       commit("addNewToItems", payload)
+    },
+    delItem({commit}, payload){
+      commit("delItem",payload)
     }
   },
   modules: {},

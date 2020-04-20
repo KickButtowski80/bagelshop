@@ -23,12 +23,12 @@
             </td>
             <td>{{ item.price }}</td>
             <td>
-              <v-btn text color="orange">
+              <v-btn text color="orange" >
                 <v-icon>edit</v-icon>
               </v-btn>
             </td>
             <td>
-              <v-btn text color="orange">
+              <v-btn text color="orange" v-on:click="delItem(item)">
                 <v-icon>delete</v-icon>
               </v-btn>
             </td>
@@ -55,6 +55,9 @@ export default {
       this.title = "Add New Item";
       this.$store.dispatch("addNewToItems" , e )
     },
+    delItem(item){
+      this.$store.dispatch("delItem", item)
+    }
   },
   computed: {
     menuItems() {
