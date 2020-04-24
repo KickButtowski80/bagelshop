@@ -3,18 +3,22 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+let menu_item_last_index = 1;
+
 export default new Vuex.Store({
   state: {
     showError: { situation: false, message: "" },
-    message: "nothing so far...",
+    message: "nothing so far..." + "\n",
     basket: [],
     menuItems: [
       {
+        index: 0,
         name: "Frozen Yogurt",
         description: "just simple yougurt for your happiness",
         price: 2,
       },
       {
+        index: 1,
         name: "Ice cream sandwich",
         description: "lesser suger more happniess inside your icecream",
         price: 2.37,
@@ -39,16 +43,18 @@ export default new Vuex.Store({
       state.totalPrice = state.subTotal + 10;
     },
     subTotal(state) {
-      state.subTotal = state.basket
-        .map((item) => item.price * item.quantity)
-        .reduce((accumulator, currentValue) => accumulator + currentValue);
+      if (state.basket.length > 0) {
+        state.subTotal = state.basket
+          .map((item) => item.price * item.quantity)
+          .reduce((accumulator, currentValue) => accumulator + currentValue);
+      }
     },
     showError(state, payload) {
       state.showError.situation = payload.situation;
       state.showError.message = payload.message;
     },
     showMessage(state, payload) {
-      state.message += payload ;
+      state.message += payload;
     },
     addToBasket(state, payload) {
       state.basket.push({
@@ -75,13 +81,26 @@ export default new Vuex.Store({
       }
     },
     addNewToItems(state, payload) {
+      payload.index = menu_item_last_index + 1;
       state.menuItems.push(payload);
+      menu_item_last_index = menu_item_last_index + 1;
     },
     delItem(state, payload) {
       state.menuItems.splice(
         state.menuItems.findIndex((item) => item.name === payload.name),
         1
       );
+    },
+
+    editItem(state, payload) {
+      let editItem = state.menuItems.find((item) => {
+        return item.index === payload.index;
+      });
+
+      editItem.index = payload.index;
+      editItem.name = payload.name;
+      editItem.description = payload.description;
+      editItem.price = payload.price;
     },
   },
   actions: {
@@ -113,11 +132,15 @@ export default new Vuex.Store({
     },
     addNewToItems({ commit }, payload) {
       commit("addNewToItems", payload);
-      commit("showMessage", "New Item Added");
+      commit("showMessage", `Bagel ${payload.name} was Added` + "\n");
     },
     delItem({ commit }, payload) {
       commit("delItem", payload);
-      commit("showMessage", "Item was deleted");
+      commit("showMessage", `Bagel ${payload.name} was deleted` + "\n");
+    },
+    editItem({ commit }, payload) {
+      commit("editItem", payload);
+      commit("showMessage", `Bagel ${payload.name} was edited` + "\n");
     },
   },
   modules: {},
