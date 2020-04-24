@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1 align="center">{{ title }}</h1>
-    {{info}}
+    <span style="white-space: pre-line" > {{ info }}</span>
+   
   </div>
 </template>
 <script>
@@ -12,10 +13,13 @@ export default {
       title: "Recent Activites",
     };
   },
-  computed:{
-   info(){
-       return this.$store.getters.message
-   }
-  }
+  computed: {
+    info() {
+      return this.$store.getters.message;
+    },
+  },
 };
 </script>
+<style lang="scss" scoped>
+
+</style>

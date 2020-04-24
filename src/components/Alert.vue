@@ -20,16 +20,21 @@ export default {
       alert: this.value,
     };
   },
-  
+
   computed: {
     alertStatus: {
       get: function() {
         return this.value;
       },
-      set: function(newValue){
-        // this.value = newValue
-        this.$emit('update:value', newValue)
-      }
+      set: function(newValue) {
+        //  Avoid mutating a prop directly since the value will be overwritten whenever
+        //  the parent component re-renders issue
+        // using sync
+        //<app-alert :text="showError.message"  :value.sync="showError.situation"></app-alert>
+        // in leftTableMenu
+
+        this.$emit("update:value", newValue);
+      },
     },
   },
 };

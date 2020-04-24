@@ -23,9 +23,7 @@
             </td>
             <td>{{ item.price }}</td>
             <td>
-              <v-btn text color="orange" >
-                <v-icon>edit</v-icon>
-              </v-btn>
+            <edit-the-item v-bind:theItem="item"></edit-the-item>
             </td>
             <td>
               <v-btn text color="orange" v-on:click="delItem(item)">
@@ -40,10 +38,12 @@
 </template>
 <script>
 import addNewItem from '../addNewItem'
+import editItem from '../editItem'
 export default {
   name: "LeftTableAdmin",
   components:{
       'add-new-item': addNewItem, 
+      'edit-the-item': editItem,
   },
   data() {
     return {
@@ -52,11 +52,13 @@ export default {
   },
   methods: {
     addNewToItems(e) {
-      this.title = "Add New Item";
-      this.$store.dispatch("addNewToItems" , e )
+       this.$store.dispatch("addNewToItems" , e )
     },
     delItem(item){
       this.$store.dispatch("delItem", item)
+    },
+    editItem(e){
+      this.$store.dispatch('editItem', e)
     }
   },
   computed: {
