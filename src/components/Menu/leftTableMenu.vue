@@ -1,7 +1,11 @@
 <template>
   <div>
     <div v-if="showError['situation']">
-      <app-alert :text="showError.message"></app-alert>
+    <!-- 
+basically, when you close the alert, the value of the alert goes to false
+so you need to turn it to true when there is an error  :value="showError.situation" -->
+      <app-alert :text="showError.message"  :value.sync="showError.situation"
+                                           ></app-alert>
     </div>
     <h1 align="center">{{ title }}</h1>
     <v-simple-table od="menu-table">
@@ -38,7 +42,7 @@ export default {
   name: 'LeftTableMenu',
   data() {
     return {
-      title: "Menu Items",
+      title: "Menu Items", 
     };
   },
   methods: {

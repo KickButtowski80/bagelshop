@@ -1,13 +1,12 @@
 <template>
   <div>
     <v-alert
-      v-model="alert"
+      v-model="alertStatus"
       border="left"
       close-text="Close Alert"
       color="error  accent-4"
       dark
       dismissible
-      :value="alert"
     >
       {{ text }}
     </v-alert>
@@ -15,11 +14,23 @@
 </template>
 <script>
 export default {
-  props: ["text"],
+  props: ["value", "text"],
   data() {
     return {
-      alert: true,
+      alert: this.value,
     };
+  },
+  
+  computed: {
+    alertStatus: {
+      get: function() {
+        return this.value;
+      },
+      set: function(newValue){
+        // this.value = newValue
+        this.$emit('update:value', newValue)
+      }
+    },
   },
 };
 </script>
