@@ -1,5 +1,6 @@
 <template>
   <v-app id="app">
+ 
     <DrawerMenu />
     <v-content>
       <router-view></router-view>

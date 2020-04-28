@@ -41,7 +41,8 @@ export default {
       { text: "Home", icon: "home", link: "/" },
       { text: "Menu", icon: "menu_book", link: "/menu" },
       { text: "About", icon: "info", link: "/about" },
-      { text: 'Admin', icon: 'lock', link: '/admin'}
+      { text: 'Admin', icon: 'lock', link: '/admin'},
+      { text: 'Orders', icon: 'assignment', link: '/orders'}
     ]
   })
 };
