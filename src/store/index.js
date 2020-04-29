@@ -4,12 +4,14 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 let menu_item_last_index = 1;
+let order_last_index = 0;
 
 export default new Vuex.Store({
   state: {
     showError: { situation: false, message: "" },
     message: "nothing so far..." + "\n",
     basket: [],
+    orders: [],
     menuItems: [
       {
         index: 0,
@@ -30,10 +32,15 @@ export default new Vuex.Store({
   getters: {
     menuItems: (state) => state.menuItems,
     basket: (state) => state.basket,
+    orders: (state) => state.orders,
     showError: (state) => state.showError,
     message: (state) => state.message,
     itemInBasket: (state) => (item) => {
       return state.basket.find((itemBas) => itemBas.name === item.name);
+    },
+
+    orderInOrders: (state) => (theOrder) => {
+      return state.orders.find((o) => o.index === theOrder.index);
     },
     subTotal: (state) => state.subTotal,
     totalPrice: (state) => state.totalPrice,
@@ -91,7 +98,6 @@ export default new Vuex.Store({
         1
       );
     },
-
     editItem(state, payload) {
       let editItem = state.menuItems.find((item) => {
         return item.index === payload.index;
@@ -101,6 +107,18 @@ export default new Vuex.Store({
       editItem.name = payload.name;
       editItem.description = payload.description;
       editItem.price = payload.price;
+    },
+    submitOrder(state, payload) {
+      let obj = {};
+      obj.index = order_last_index + 1
+      obj.totalPrice = state.totalPrice;
+      obj = { ...obj, payload };
+      state.orders.push(obj);
+      order_last_index = order_last_index + 1;
+      state.subTotal = 0;
+      state.totalPrice = 0;
+      state.basket = []
+
     },
   },
   actions: {
@@ -141,6 +159,10 @@ export default new Vuex.Store({
     editItem({ commit }, payload) {
       commit("editItem", payload);
       commit("showMessage", `Bagel ${payload.name} was edited` + "\n");
+    },
+    submitOrder({ commit }, payload, subTotal, total) {
+      commit("submitOrder", payload, subTotal, total);
+      // do not forget the show message after this later
     },
   },
   modules: {},
