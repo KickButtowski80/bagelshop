@@ -39,12 +39,12 @@
         <v-col class="text-right">
           <p>${{ subTotalResult }}</p>
           <p>$10</p>
-          <p class="font-weight-bold">${{ totalPriceResult}}</p>
+          <p class="font-weight-bold">${{ totalPriceResult }}</p>
         </v-col>
       </v-row>
       <v-row>
         <v-spacer></v-spacer>
-        <v-btn depressed class="orange">
+        <v-btn depressed class="orange" v-on:click="submitOrder">
           <v-icon>shopping_basket</v-icon>
         </v-btn>
       </v-row>
@@ -53,10 +53,10 @@
 </template>
 <script>
 export default {
-  name: 'RightTableMenu',
+  name: "RightTableMenu",
   data() {
     return {
-      title: "Current Basket", 
+      title: "Current Basket",
     };
   },
   computed: {
@@ -69,9 +69,9 @@ export default {
     subTotalResult() {
       return this.$store.getters.subTotal;
     },
-    totalPriceResult(){
-      return this.$store.getters.totalPrice
-    }
+    totalPriceResult() {
+      return this.$store.getters.totalPrice;
+    },
   },
   methods: {
     increaseQuantity(item) {
@@ -80,7 +80,10 @@ export default {
     decreaseQuantity(item) {
       this.$store.dispatch("decreaseQuantity", item);
     },
-  }, 
+    submitOrder() {
+      this.$store.dispatch("submitOrder", this.basket);
+    },
+  },
 };
 </script>
 

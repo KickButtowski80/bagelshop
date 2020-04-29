@@ -47,13 +47,14 @@ export default new Vuex.Store({
   },
   mutations: {
     totalPrice(state) {
-      state.totalPrice = state.subTotal + 10;
+      state.totalPrice = Number.parseFloat(state.subTotal + 10).toFixed(2);
     },
     subTotal(state) {
       if (state.basket.length > 0) {
         state.subTotal = state.basket
           .map((item) => item.price * item.quantity)
-          .reduce((accumulator, currentValue) => accumulator + currentValue);
+          .reduce((accumulator, currentValue) => accumulator + currentValue)
+        state.subTotal = Number.parseFloat(state.subTotal).toFixed(2)
       }
     },
     showError(state, payload) {
@@ -110,15 +111,14 @@ export default new Vuex.Store({
     },
     submitOrder(state, payload) {
       let obj = {};
-      obj.index = order_last_index + 1
+      obj.index = order_last_index + 1;
       obj.totalPrice = state.totalPrice;
       obj = { ...obj, payload };
       state.orders.push(obj);
       order_last_index = order_last_index + 1;
       state.subTotal = 0;
       state.totalPrice = 0;
-      state.basket = []
-
+      state.basket = [];
     },
   },
   actions: {

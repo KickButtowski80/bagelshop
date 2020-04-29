@@ -26,7 +26,7 @@ so you need to turn it to true when there is an error  :value="showError.situati
             <td>{{ item.price }}</td>
             <td>
               <v-btn text v-on:click="addToBasket(item)">
-                <v-icon color="orange">add_shopping_cart</v-icon>
+                <v-icon color="orange">1add_shopping_cart</v-icon>
                 <span></span>
               </v-btn>
             </td>

@@ -68,9 +68,9 @@
         <template v-slot:default>
           <thead>
             <tr>
-              <th class="text-left">Order #</th>
-              <th class="text-left">Quantity</th>
-              <th class="text-left">Item</th>
+              <th class="text-left">#</th>
+              <th class="text-left">details</th>
+              <!--th class="text-left">Item</th-->
               <th class="text-left">Price</th>
               <th class="text-left">Status</th>
               <th class="text-left">Archive</th>
@@ -78,12 +78,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
-              <td>{{ item.name }}</td>
-              <td>{{ item.calories }}</td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.calories }}</td>
-              <td>{{ item.name }}</td>
+        
+            <tr v-for="item in orders" :key="item.name">
+              <td>{{ item.index }}</td>
+               
+              <!--div v-for="p in item.payload" :key="p.name">
+                <td>{{p.name}}</td>
+              </div-->
+            <td> <show-details-items :payloadList="item.payload"></show-details-items> </td>
+              <td>{{ item.totalPrice}}</td>
+              <td>
+                <div
+                  class="d-flex align-center justify-center inprogress status_box white--text"
+                >
+                  InProgress
+                </div>
+              </td>
               <td>
                 <v-btn icon>
                   <v-icon>archive</v-icon>
@@ -103,26 +113,21 @@
 </template>
 
 <script>
+import showDetails from '../showDetails'
 export default {
   name: "LeftTableOrders",
+  components:{
+    'show-details-items': showDetails
+  },
   data() {
     return {
       title: "Orders",
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-        },
-      ],
     };
+  },
+  computed: {
+    orders() {
+      return this.$store.getters.orders;
+    },
   },
 };
 </script>
