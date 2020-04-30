@@ -5,11 +5,7 @@
     </template>
     <v-card class="mx-auto" max-width="300" tile>
       <v-subheader>List Of Items</v-subheader>
-      <v-simple-table
-        :dense="dense"
-        :fixed-header="fixedHeader"
-        :height="height"
-      >
+      <v-simple-table>
         <template v-slot:default>
           <thead>
             <tr>
@@ -19,6 +15,7 @@
             </tr>
           </thead>
           <tbody>
+        
             <tr v-for="item in payloadListInfo" :key="item.name">
               <td>{{ item.name }}</td>
               <td>{{ item.quantity }}</td>

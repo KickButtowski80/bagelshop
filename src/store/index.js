@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 let menu_item_last_index = 1;
 let order_last_index = 0;
+let archive_last_index = 0;
 
 export default new Vuex.Store({
   state: {
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     message: "nothing so far..." + "\n",
     basket: [],
     orders: [],
+    archives: [],
     menuItems: [
       {
         index: 0,
@@ -28,11 +30,13 @@ export default new Vuex.Store({
     ],
     subTotal: 0,
     totalPrice: 0,
+    totalRevenue: 0,
   },
   getters: {
     menuItems: (state) => state.menuItems,
     basket: (state) => state.basket,
     orders: (state) => state.orders,
+    archives: (state) => state.archives,
     showError: (state) => state.showError,
     message: (state) => state.message,
     itemInBasket: (state) => (item) => {
@@ -44,6 +48,7 @@ export default new Vuex.Store({
     },
     subTotal: (state) => state.subTotal,
     totalPrice: (state) => state.totalPrice,
+    totalRevenue: (state) => state.totalRevenue,
   },
   mutations: {
     totalPrice(state) {
@@ -53,8 +58,8 @@ export default new Vuex.Store({
       if (state.basket.length > 0) {
         state.subTotal = state.basket
           .map((item) => item.price * item.quantity)
-          .reduce((accumulator, currentValue) => accumulator + currentValue)
-        state.subTotal = Number.parseFloat(state.subTotal).toFixed(2)
+          .reduce((accumulator, currentValue) => accumulator + currentValue);
+        state.subTotal = Number.parseFloat(state.subTotal).toFixed(2);
       }
     },
     showError(state, payload) {
@@ -113,12 +118,38 @@ export default new Vuex.Store({
       let obj = {};
       obj.index = order_last_index + 1;
       obj.totalPrice = state.totalPrice;
+      obj.status = "Unstarted";
       obj = { ...obj, payload };
       state.orders.push(obj);
       order_last_index = order_last_index + 1;
       state.subTotal = 0;
       state.totalPrice = 0;
       state.basket = [];
+    },
+    delOrder(state, payload) {
+      state.orders.splice(
+        state.orders.findIndex((order) => order.index === payload.index),
+        1
+      );
+    },
+    setTotalReenue(state, { totalPrice }) {
+      state.totalRevenue =
+        parseFloat(state.totalRevenue) + parseFloat(totalPrice);
+    },
+    archiveOrder(state, payload) {
+      payload.index = archive_last_index + 1;
+      state.archives.push(payload);
+      archive_last_index = archive_last_index + 1;
+    },
+    changeStatus(state, payload) {
+      let indexItem = state.orders.findIndex(
+        (order) => order.index === payload.index
+      );
+      if (state.orders[indexItem].status === "Unstarted")
+        state.orders[indexItem].status = "inprogress";
+      else if (state.orders[indexItem].status === "inprogress") {
+        state.orders[indexItem].status = "complete";
+      }
     },
   },
   actions: {
@@ -160,9 +191,31 @@ export default new Vuex.Store({
       commit("editItem", payload);
       commit("showMessage", `Bagel ${payload.name} was edited` + "\n");
     },
-    submitOrder({ commit }, payload, subTotal, total) {
-      commit("submitOrder", payload, subTotal, total);
+    submitOrder({ commit }, payload) {
+      commit("submitOrder", payload);
       // do not forget the show message after this later
+    },
+    delOrder({ commit }, payload) {
+      commit("delOrder", payload);
+      commit("showError", {
+        situation: true,
+        message: `order #${payload.index}  was deleted.`,
+      });
+    },
+    archiveOrder({ commit }, payload) {
+      if (payload.status === "complete") {
+        commit("archiveOrder", payload);
+        commit("setTotalReenue", payload);
+        commit("delOrder", payload);
+      } else {
+        commit("showError", {
+          situation: true,
+          message: `order #${payload.index} is not recieved by the customer`,
+        });
+      }
+    },
+    changeStatus({ commit }, payload) {
+      commit("changeStatus", payload);
     },
   },
   modules: {},

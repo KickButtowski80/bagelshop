@@ -63,6 +63,15 @@
         >Orders:</v-col
       >
     </v-row>
+    <v-row>
+      <v-col>
+        <div v-if="showError['situation']">
+          <app-alert
+            :text="showError.message"
+            :value.sync="showError.situation"
+          ></app-alert></div
+      ></v-col>
+    </v-row>
     <v-row class="pa-2 ">
       <v-simple-table>
         <template v-slot:default>
@@ -70,7 +79,6 @@
             <tr>
               <th class="text-left">#</th>
               <th class="text-left">details</th>
-              <!--th class="text-left">Item</th-->
               <th class="text-left">Price</th>
               <th class="text-left">Status</th>
               <th class="text-left">Archive</th>
@@ -78,29 +86,30 @@
             </tr>
           </thead>
           <tbody>
-        
             <tr v-for="item in orders" :key="item.name">
               <td>{{ item.index }}</td>
-               
-              <!--div v-for="p in item.payload" :key="p.name">
-                <td>{{p.name}}</td>
-              </div-->
-            <td> <show-details-items :payloadList="item.payload"></show-details-items> </td>
-              <td>{{ item.totalPrice}}</td>
+              <td>
+                <show-details-items
+                  :payloadList="item.payload"
+                ></show-details-items>
+              </td>
+              <td>{{ item.totalPrice }}</td>
               <td>
                 <div
-                  class="d-flex align-center justify-center inprogress status_box white--text"
+                  v-on:click="changeStatus(item)"
+                  :class="`${item.status}`"
+                  class="d-flex justify-center complete align-center status_box white--text"
                 >
-                  InProgress
+                  {{ item.status }}
                 </div>
               </td>
               <td>
-                <v-btn icon>
+                <v-btn v-on:click="archiveOrder(item)" icon>
                   <v-icon>archive</v-icon>
                 </v-btn>
               </td>
               <td>
-                <v-btn icon>
+                <v-btn v-on:click="delOrder(item)" icon>
                   <v-icon>delete</v-icon>
                 </v-btn>
               </td>
@@ -113,20 +122,34 @@
 </template>
 
 <script>
-import showDetails from '../showDetails'
+import showDetails from "../showDetails";
 export default {
   name: "LeftTableOrders",
-  components:{
-    'show-details-items': showDetails
+  components: {
+    "show-details-items": showDetails,
   },
   data() {
     return {
       title: "Orders",
     };
   },
+  methods: {
+    delOrder(item) {
+      this.$store.dispatch("delOrder", item);
+    },
+    archiveOrder(items){
+      this.$store.dispatch("archiveOrder", items)
+    },
+    changeStatus(item) {
+      this.$store.dispatch("changeStatus", item);
+    },
+  },
   computed: {
     orders() {
       return this.$store.getters.orders;
+    },
+    showError() {
+      return this.$store.getters.showError;
     },
   },
 };

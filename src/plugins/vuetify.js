@@ -20,6 +20,7 @@ export default new Vuetify({
                 complete: '#2BFC83',
                 inprogress: '#FF8936',
                 incomplete: '#FF1212',
+                Unstarted: '#FF1212',
                 lightgrey: '#cacaca'
             }
         }
