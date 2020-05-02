@@ -5,7 +5,11 @@ Vue.use(Vuex);
 
 let menu_item_last_index = 1;
 let order_last_index = 0;
-let archive_last_index = 0;
+// let archive_last_index = 0;
+
+function findIndex(arry, name) {
+  return arry.findIndex((item) => item.name === name);
+}
 
 export default new Vuex.Store({
   state: {
@@ -31,6 +35,7 @@ export default new Vuex.Store({
     subTotal: 0,
     totalPrice: 0,
     totalRevenue: 0,
+    _archive_last_index: 0,
   },
   getters: {
     menuItems: (state) => state.menuItems,
@@ -76,18 +81,15 @@ export default new Vuex.Store({
         quantity: 1,
       });
     },
-    increaseQuantity(state, payload) {
-      let index_item_in_basket = state.basket.findIndex(
-        (item) => item.name === payload.name
-      );
-      let obj = state.basket[index_item_in_basket];
+    //_ means private
+    _increaseQuantity(state, payload) {
+      const index_item_in_basket = findIndex(state.basket, payload.name);
+      const obj = state.basket[index_item_in_basket];
       obj.quantity += 1;
     },
-    decreaseQuantity(state, payload) {
-      let index_item_in_basket = state.basket.findIndex(
-        (item) => item.name === payload.name
-      );
-      let obj = state.basket[index_item_in_basket];
+    _decreaseQuantity(state, payload) {
+      const index_item_in_basket = findIndex(state.basket, payload.name);
+      const obj = state.basket[index_item_in_basket];
       obj.quantity -= 1;
       if (obj.quantity === 0) {
         state.basket.splice(index_item_in_basket, 1);
@@ -105,7 +107,7 @@ export default new Vuex.Store({
       );
     },
     editItem(state, payload) {
-      let editItem = state.menuItems.find((item) => {
+      const editItem = state.menuItems.find((item) => {
         return item.index === payload.index;
       });
 
@@ -119,6 +121,7 @@ export default new Vuex.Store({
       obj.index = order_last_index + 1;
       obj.totalPrice = state.totalPrice;
       obj.status = "Unstarted";
+      //mereging obj means needing let
       obj = { ...obj, payload };
       state.orders.push(obj);
       order_last_index = order_last_index + 1;
@@ -132,14 +135,20 @@ export default new Vuex.Store({
         1
       );
     },
-    setTotalReenue(state, { totalPrice }) {
+    setTotalRevenue(state, { totalPrice }) {
       state.totalRevenue =
         parseFloat(state.totalRevenue) + parseFloat(totalPrice);
     },
     archiveOrder(state, payload) {
-      payload.index = archive_last_index + 1;
+      // payload.index = archive_last_index + 1;
+      payload.index = (
+        Date.now().toString(36) +
+        Math.random()
+          .toString(36)
+          .substr(2, 5)
+      ).toUpperCase();
       state.archives.push(payload);
-      archive_last_index = archive_last_index + 1;
+      // archive_last_index = archive_last_index + 1;
     },
     changeStatus(state, payload) {
       let indexItem = state.orders.findIndex(
@@ -170,12 +179,12 @@ export default new Vuex.Store({
       }
     },
     increaseQuantity({ commit }, payload) {
-      commit("increaseQuantity", payload);
+      commit("_increaseQuantity", payload);
       commit("subTotal");
       commit("totalPrice");
     },
     decreaseQuantity({ commit }, payload) {
-      commit("decreaseQuantity", payload);
+      commit("_decreaseQuantity", payload);
       commit("subTotal");
       commit("totalPrice");
     },
@@ -205,7 +214,7 @@ export default new Vuex.Store({
     archiveOrder({ commit }, payload) {
       if (payload.status === "complete") {
         commit("archiveOrder", payload);
-        commit("setTotalReenue", payload);
+        commit("setTotalRevenue", payload);
         commit("delOrder", payload);
       } else {
         commit("showError", {

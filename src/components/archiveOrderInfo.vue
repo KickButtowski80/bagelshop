@@ -10,15 +10,13 @@
         the Order Info
       </v-card-title>
       <v-card-text>
- 
-        Total Price: {{ArchiveOrderInfo.totalPrice }}
-        <br/>
+        Total Price: {{ ArchiveOrderInfo.totalPrice }}
+        <br />
         Order Includes:
         <ol v-for="item in ArchiveOrderInfo.payload" :key="item.name">
           <li>
-            name:{{ item.name }}|
-            price:{{item.price}}|
-            quantity: {{ item.quantity }}
+            name:{{ item.name }}| price:{{ item.price }}| quantity:
+            {{ item.quantity }}
           </li>
         </ol>
       </v-card-text>
