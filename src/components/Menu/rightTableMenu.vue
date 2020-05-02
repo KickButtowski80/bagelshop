@@ -24,7 +24,7 @@
                 </v-icon>
               </td>
               <td>{{ item.name }}</td>
-              <td>{{ item.price * item.quantity }}</td>
+              <td>{{ (item.price * item.quantity).toFixed(2) }}</td>
             </tr>
           </tbody>
         </template>

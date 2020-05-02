@@ -137,7 +137,8 @@ export default new Vuex.Store({
     },
     setTotalRevenue(state, { totalPrice }) {
       state.totalRevenue =
-        parseFloat(state.totalRevenue) + parseFloat(totalPrice);
+        (parseFloat(state.totalRevenue) + parseFloat(totalPrice)).toFixed(2);
+         
     },
     archiveOrder(state, payload) {
       // payload.index = archive_last_index + 1;
