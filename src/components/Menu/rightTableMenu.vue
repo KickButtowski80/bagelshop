@@ -4,7 +4,15 @@
     <v-alert type="info" icon="mdi-emoticon-sad" v-if="basketStatus">
       Empty Basket, please add some to basket
     </v-alert>
-    <div v-else>
+    <div v-if="!basketStatus">
+      <v-alert
+        v-if="alert"
+        type="success"
+        icon="mdi-emoticon-happy"
+        transition="fade-transition"
+      >
+        thank you for your business
+      </v-alert>
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -57,9 +65,21 @@ export default {
   data() {
     return {
       title: "Current Basket",
+      alert: false,
     };
   },
+  watch: {
+    basketStatus: {
+      handler(newVal, oldVal) {
+        this.alert = !newVal;
+        setTimeout(() => {
+          this.alert = !oldVal;
+        }, 5000);
+      },
+    },
+  },
   computed: {
+    //you cannot use async like setTimeout inside computed func
     basket() {
       return this.$store.getters.basket;
     },
